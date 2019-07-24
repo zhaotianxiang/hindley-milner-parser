@@ -1,3 +1,8 @@
+/**
+ *  @params signs: a function sings like: '((a…→b)…→[a]→*)→Number→((a…,Int,[a]→b)…→[a]→*)'
+ *  @return a list of parsed unit: [ '((a…→b)…→[a]→*)', '→', 'Number', '→', '((a…,Int,[a]→b)…→[a]→*)' ]
+ */
+
 'use strict'
 
 module.exports = (signs) => {
