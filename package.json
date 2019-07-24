@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/zhaotianxiang/hindley-milner-parser/issues"
   },
-  "homepage": "https://github.com/zhaotianxiang/hindley-milner-parser#readme"
+  "homepage": "https://github.com/zhaotianxiang/hindley-milner-parser#readme",
+  "dependencies": {
+    "ramda": "^0.26.1"
+  }
 }

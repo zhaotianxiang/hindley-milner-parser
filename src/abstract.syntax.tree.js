@@ -1,8 +1,8 @@
 'use strict'
 
-const parseFunctionSigns = request();
+const parseFunctionSigns = require('./parse.function.signs');
 
-class TreeNode {
+class Node {
     constructor(type = 'FUNCTION') {
         this.type = type;
         this.index;
@@ -14,38 +14,39 @@ class TreeNode {
 };
 
 class AbstractSyntaxTree {
-    constructor(){
+    constructor() {
         this.baseTypeList = ['Number', 'Object', 'LIST'];
-        this.root = new TreeNode();
+        this.root = new Node();
+        this.arrow = '→'
     }
 
-    build(array, typename) {
-        tnode.typename = typename;
-        tnode.signs = array.join('');
-        if (array.length <= 1) {
+    build(signList) {
+        const tnode = new Node();
+        tnode.signs = signList.join('');
+        if (signList.length <= 1) {
             return tnode;
         };
 
-        tnode.output = array[array.length - 1];
-        for (let i = array.length - 2; i >= 0; i--) {
-            if (array[i] === ARROW) {
+        tnode.output = signList[signList.length - 1];
+        for (let i = signList.length - 2; i >= 0; i--) {
+            if (signList[i] === this.arrow) {
                 continue;
             };
-            tnode.input.push(array[i]);
+            tnode.input.push(signList[i]);
         }
 
         // 递归进行
         tnode.input.map(rawSign => {
-            if (getTypeName(rawSign) === 'FUNCTION') {
+            if (this._getTypeName(rawSign) === 'FUNCTION') {
                 const sign = rawSign.substring(1, rawSign.length - 1);
-                tnode.children.push(tree(parseFunctionSigns(sign), 'FUNCTION'));
+                tnode.children.push(this.build(parseFunctionSigns(sign), 'FUNCTION'));
             }
         });
 
         return tnode;
     }
 
-    getTypeName(signs) {
+    _getTypeName(signs) {
         if (signs[0] == '(' && signs[signs.length - 1] == ')') {
             return 'FUNCTION';
         }
@@ -55,13 +56,13 @@ class AbstractSyntaxTree {
         if (signs[0] == '{' && signs[signs.lenght - 1] == '}') {
             return 'Object';
         }
-        if (_inArray(signs))
+        if (this._insignList(signs))
             return signs;
 
         return 'KEYWORD';
     };
 
-    _inArray(target) {
+    _insignList(target) {
         for (let i in this.baseTypeList) {
             if (this.baseTypeList[i] == target) {
                 return true;
@@ -72,4 +73,4 @@ class AbstractSyntaxTree {
 
 }
 
-module.exports = TreeNode;
+module.exports = AbstractSyntaxTree;
