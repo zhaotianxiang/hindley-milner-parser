@@ -23,11 +23,13 @@ class AbstractSyntaxTree {
     build(signList) {
         const tnode = new Node();
         tnode.signs = signList.join('');
+
         if (signList.length <= 1) {
             return tnode;
         };
 
         tnode.output = signList[signList.length - 1];
+
         for (let i = signList.length - 2; i >= 0; i--) {
             if (signList[i] === this.arrow) {
                 continue;
@@ -50,12 +52,15 @@ class AbstractSyntaxTree {
         if (signs[0] == '(' && signs[signs.length - 1] == ')') {
             return 'FUNCTION';
         }
+
         if (signs[0] == '[' || signs[signs.lenght - 1] == ']') {
             return 'LIST';
         }
+
         if (signs[0] == '{' && signs[signs.lenght - 1] == '}') {
             return 'Object';
         }
+
         if (this._insignList(signs))
             return signs;
 
@@ -68,6 +73,7 @@ class AbstractSyntaxTree {
                 return true;
             }
         }
+
         return false;
     }
 

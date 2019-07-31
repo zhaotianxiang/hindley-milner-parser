@@ -11,13 +11,16 @@ module.exports = (signs) => {
     const KEYWORD = ['Number', 'Boolean', 'String', 'Idx'];
     const ARROW = '→';
     const NOT_FOUNT_INDEX = -1;
+
     let splitsList = [];
     let keywords = [];
     let stack = [];
+
     for (let i = 0; i < signs.length; ++i) {
         const start = i;
         let end = i;
         let leftBracket = LEFT_BRACKETS.indexOf(signs[i]);
+
         if (leftBracket !== NOT_FOUNT_INDEX) {
             stack.push(leftBracket);
             while (stack.length) {
@@ -35,6 +38,7 @@ module.exports = (signs) => {
             }
             end = i;
         }
+
         if (signs[i] === ARROW || start !== end) {
             _pushKeyWords(keywords, splitsList);
             keywords = [];
@@ -46,7 +50,9 @@ module.exports = (signs) => {
             keywords.push(start);
         }
     }
+
     _pushKeyWords(keywords, splitsList);
+
     return splitsList.map(index => signs.substring(index.start, index.end + 1));
 }
 
@@ -57,3 +63,4 @@ const _pushKeyWords = (keywords, splitsList) => {
         end: keywords[keywords.length - 1]
     });
 }
+
